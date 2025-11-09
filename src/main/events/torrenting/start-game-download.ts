@@ -123,6 +123,36 @@ const startGameDownload = async (
     }
 
     if (err instanceof Error) {
+      if (downloader === Downloader.Buzzheavier) {
+        if (err.message.includes("Rate limit")) {
+          return {
+            ok: false,
+            error: "Buzzheavier: Rate limit exceeded",
+          };
+        }
+        if (err.message.includes("not found") || err.message.includes("deleted")) {
+          return {
+            ok: false,
+            error: "Buzzheavier: File not found",
+          };
+        }
+      }
+
+      if (downloader === Downloader.Fuckingfast) {
+        if (err.message.includes("Rate limit")) {
+          return {
+            ok: false,
+            error: "Fuckingfast: Rate limit exceeded",
+          };
+        }
+        if (err.message.includes("not found") || err.message.includes("deleted")) {
+          return {
+            ok: false,
+            error: "Fuckingfast: File not found",
+          };
+        }
+      }
+
       return { ok: false, error: err.message };
     }
 
